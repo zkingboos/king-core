@@ -16,7 +16,7 @@ public final class ModuleView {
 
     @Command(name = "module")
     public void mainModule(Execution execution) {
-        test.testInfo("q funciona?? MEE DLC");
-        context.getLogger().info("Modulo funcionando");
+        test.testInfo("testing info - #DI");
+        context.getLogger().info("Module working");
     }
 }

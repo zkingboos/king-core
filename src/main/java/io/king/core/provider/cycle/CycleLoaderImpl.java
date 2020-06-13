@@ -58,15 +58,11 @@ public final class CycleLoaderImpl implements CycleLoader {
     public Object initialize(Class<?> clazz) throws Exception {
         final Object objectInstance = clazz.newInstance();
 
-        System.out.println("clazz.getSimpleName() = " + clazz.getSimpleName());
-
         for (Field field : clazz.getDeclaredFields()) {
             final boolean isPresent = field.isAnnotationPresent(INJECT_CLASS);
             if(!isPresent) continue;
 
             final Class<?> type = field.getType();
-            System.out.println("type.getSimpleName() = " + type.getSimpleName());
-
             final ServiceEntity<?> service = serviceManager.getRegistrationService(type);
             if(service == null) throw new NoSuchElementException();
 
