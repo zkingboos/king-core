@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: libs/command-framework--eed43b62e8-1.jar
+

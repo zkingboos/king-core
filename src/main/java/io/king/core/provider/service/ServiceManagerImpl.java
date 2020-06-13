@@ -1,0 +1,33 @@
+package io.king.core.provider.service;
+
+import io.king.core.api.service.ServiceEntity;
+import io.king.core.api.service.ServiceManager;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public final class ServiceManagerImpl implements ServiceManager {
+
+    private final Map<Class<?>, ServiceEntity<?>> services = new LinkedHashMap<>();
+
+    @Override
+    public void registerServices(Object... services) {
+        for (Object service : services) {
+            registerService(service);
+        }
+    }
+
+    @Override
+    public <T> ServiceEntity<T> registerService(T service) {
+        final ServiceImpl<T> serviceObject = new ServiceImpl<>(service);
+        final Class<?> classService = service.getClass();
+
+        services.put(classService, serviceObject);
+        return serviceObject;
+    }
+
+    @Override
+    public ServiceEntity<?> getRegistrationService(Class<?> registration) {
+        return services.get(registration);
+    }
+}
