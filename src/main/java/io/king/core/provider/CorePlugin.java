@@ -36,7 +36,9 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
     public void onLoad() {
         try {
             context = new LifeContextImpl(this, serviceManager);
-            cycleLoader = new CycleLoaderImpl(context, this);
+            serviceManager.registerService(context);
+
+            cycleLoader = new CycleLoaderImpl(serviceManager, context, this);
             final ModuleModel moduleModel = new ModuleModelImpl(this, cycleLoader, context);
 
             coreLogger.info("Trying to load modules from default folder.");

@@ -29,4 +29,10 @@ public interface LifeContext {
      * @return instance of registration service
      */
     <T> T getService(Class<?> registration);
+
+    /**
+     * Register services for dependency injection
+     * @param services instance of services
+     */
+    void registerServices(Object... services);
 }

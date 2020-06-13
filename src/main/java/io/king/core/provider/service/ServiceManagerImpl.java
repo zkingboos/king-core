@@ -19,7 +19,7 @@ public final class ServiceManagerImpl implements ServiceManager {
 
     @Override
     public <T> ServiceEntity<T> registerService(T service) {
-        final ServiceImpl<T> serviceObject = new ServiceImpl<>(service);
+        final ServiceEntity<T> serviceObject = new ServiceEntityImpl<>(service);
         final Class<?> classService = service.getClass();
 
         services.put(classService, serviceObject);

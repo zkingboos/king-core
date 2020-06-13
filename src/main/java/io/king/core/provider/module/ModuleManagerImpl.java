@@ -5,6 +5,7 @@ import io.king.core.api.module.ModuleManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Comparator;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public final class ModuleManagerImpl implements ModuleManager {
 
-    private final Plugin plugin;
+    private final JavaPlugin plugin;
     private final List<ModuleObject> modules;
     private final CycleLoader cycleLoader;
 

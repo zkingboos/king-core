@@ -23,6 +23,11 @@ public final class LifeContextImpl implements LifeContext {
     }
 
     @Override
+    public void registerServices(Object... services) {
+        serviceManager.registerServices(services);
+    }
+
+    @Override
     public Logger getLogger() {
         return plugin.getLogger();
     }
