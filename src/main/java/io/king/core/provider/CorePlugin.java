@@ -19,6 +19,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
 
+/**
+ * @author zkingboos
+ */
 @Getter
 public final class CorePlugin extends JavaPlugin implements KingApi {
 
