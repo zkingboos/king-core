@@ -1,4 +1,0 @@
-/target
-/modules/*/target
-*.iml
-.gitignore
