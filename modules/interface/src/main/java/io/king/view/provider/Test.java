@@ -1,8 +1,18 @@
 package io.king.view.provider;
 
-public final class Test {
+import io.king.core.api.cycle.LifeContext;
+import io.king.core.api.cycle.LifeCycle;
+import io.king.core.api.service.Service;
 
-    public void testInfo(String info){
+@Service
+public final class Test extends LifeCycle {
+
+    @Override
+    public void init(LifeContext context) {
+        context.getLogger().info("TestService has been initialized");
+    }
+
+    public void testInfo(String info) {
         System.out.println(info);
     }
 }

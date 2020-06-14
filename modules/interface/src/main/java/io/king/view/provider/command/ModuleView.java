@@ -1,6 +1,6 @@
 package io.king.view.provider.command;
 
-import io.king.core.api.service.Inject;
+import io.king.core.api.di.Inject;
 import io.king.core.provider.cycle.LifeContextImpl;
 import io.king.view.provider.Test;
 import me.saiintbrisson.commands.Execution;
@@ -16,7 +16,7 @@ public final class ModuleView {
 
     @Command(name = "module")
     public void mainModule(Execution execution) {
+        execution.sendMessage("Module working");
         test.testInfo("testing info - #DI");
-        context.getLogger().info("Module working");
     }
 }

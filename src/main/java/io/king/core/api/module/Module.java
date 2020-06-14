@@ -1,5 +1,7 @@
 package io.king.core.api.module;
 
+import org.bukkit.event.Listener;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -11,9 +13,13 @@ import java.lang.annotation.RetentionPolicy;
 public @interface Module {
     Class<? extends ModuleConfig> config();
 
+    Class<? extends Listener>[] events() default {};
+
+    Class<?>[] imports() default {};
+
     Class<?>[] commands() default {};
 
     ModulePriority priority() default ModulePriority.NORMAL;
 
-    Class<?>[] imports() default {};
+    Class<?>[] services() default {};
 }

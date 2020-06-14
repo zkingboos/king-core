@@ -6,13 +6,13 @@ import io.king.core.api.module.Module;
 import io.king.core.api.module.ModulePriority;
 
 @Module(
-        priority = ModulePriority.SYSTEM,
+        priority = ModulePriority.HIGH,
         config = AuthConfig.class
 )
 public final class AuthModule extends LifeCycle {
 
     @Override
     public void init(LifeContext context) {
-        context.getLogger().info("KINGBUS");
+        context.getLogger().info("Auth module initialized");
     }
 }

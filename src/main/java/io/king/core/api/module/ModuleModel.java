@@ -7,6 +7,7 @@ public interface ModuleModel {
 
     /**
      * Load contents of model manager
+     *
      * @return instance of loaded model managers
      * @throws Exception file exception, no such element and more
      */

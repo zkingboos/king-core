@@ -2,6 +2,7 @@ package io.king.core.api.service;
 
 /**
  * Entity of service, where you can obtain the service and registration service
+ *
  * @param <T> type of service
  */
 public interface ServiceEntity<T> {

@@ -9,6 +9,9 @@ public final class ImportsCycle implements StrategyCycle {
 
     @Override
     public void setup(KingApi kingApi, CycleLoader loader, ModuleObject moduleObject) throws Exception {
-        //final Module module = moduleObject.getModule();
+        final Module module = moduleObject.getModule();
+
+        for (Class<?> imports : module.imports()) {
+        }
     }
 }

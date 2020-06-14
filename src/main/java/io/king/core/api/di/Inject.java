@@ -1,4 +1,4 @@
-package io.king.core.api.service;
+package io.king.core.api.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

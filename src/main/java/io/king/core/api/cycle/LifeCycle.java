@@ -8,14 +8,16 @@ public abstract class LifeCycle {
 
     /**
      * Pre init the life cycle
+     *
      * @param context life's context
      */
-    public void preInit(LifeContext context){
+    public void preInit(LifeContext context) {
         //TODO: pre init the life cycle
     }
 
     /**
      * When module is initialized, this method is called
+     *
      * @param context life's context
      */
     public void init(LifeContext context) {
@@ -24,6 +26,7 @@ public abstract class LifeCycle {
 
     /**
      * When module is closed, this method is called
+     *
      * @param context death's context
      */
     public void dispose(LifeContext context) {

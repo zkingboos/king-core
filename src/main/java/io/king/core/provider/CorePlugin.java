@@ -3,12 +3,14 @@ package io.king.core.provider;
 import io.king.core.api.KingApi;
 import io.king.core.api.cycle.CycleLoader;
 import io.king.core.api.cycle.LifeContext;
+import io.king.core.api.di.InjectionManager;
 import io.king.core.api.module.ModuleContainer;
 import io.king.core.api.module.ModuleManager;
 import io.king.core.api.module.ModuleModel;
 import io.king.core.api.service.ServiceManager;
 import io.king.core.provider.cycle.CycleLoaderImpl;
 import io.king.core.provider.cycle.LifeContextImpl;
+import io.king.core.provider.di.InjectionManagerImpl;
 import io.king.core.provider.module.ModuleContainerImpl;
 import io.king.core.provider.module.ModuleModelImpl;
 import io.king.core.provider.service.ServiceManagerImpl;
@@ -29,6 +31,8 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
     private final ServiceManager serviceManager = new ServiceManagerImpl();
     private final Logger coreLogger = getLogger();
 
+    private InjectionManager injectionManager;
+    private final JavaPlugin plugin = this;
     private ModuleManager moduleManager;
     private CommandFrame commandFrame;
     private CycleLoader cycleLoader;
@@ -39,9 +43,9 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
     public void onLoad() {
         try {
             context = new LifeContextImpl(this, serviceManager);
-            serviceManager.registerService(context);
 
-            cycleLoader = new CycleLoaderImpl(serviceManager, context, this);
+            injectionManager = new InjectionManagerImpl(serviceManager);
+            cycleLoader = new CycleLoaderImpl(injectionManager, serviceManager, context, this);
             final ModuleModel moduleModel = new ModuleModelImpl(this, cycleLoader, context);
 
             coreLogger.info("Trying to load modules from default folder.");
@@ -65,16 +69,21 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
          * Register command frame in service
          * Used to share the instance to others modules
          */
-        serviceManager.registerService(commandFrame);
+        serviceManager.registerServices(commandFrame, context, this);
 
         try {
             moduleContainer.registerManager(
                     CorePlugin.class,
-                    moduleManager.lifeCycle()
+                    moduleManager.orderByPriority().lifeCycle()
             );
         } catch (Exception e) {
             e.printStackTrace();
             coreLogger.warning(e.getMessage());
         }
+    }
+
+    @Override
+    public void onDisable() {
+        moduleManager.orderShutdown();
     }
 }
