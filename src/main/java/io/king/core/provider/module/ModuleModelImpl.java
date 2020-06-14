@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
@@ -49,32 +50,45 @@ public final class ModuleModelImpl implements ModuleModel {
         if (moduleFiles == null) throw new NoSuchElementException();
 
         final List<ModuleObject> moduleObjects = new LinkedList<>();
+        final URLClassLoader urlClassLoader = resolveClasses(moduleFiles);
+
         for (File file : moduleFiles) {
             if (!file.isFile()) continue;
 
-            final ModuleObject moduleObject = loadFile(file);
+            final ModuleObject moduleObject = loadFile(file, urlClassLoader);
             moduleObjects.add(moduleObject);
         }
 
-        return new ModuleManagerImpl(plugin, moduleObjects, cycleLoader);
+        urlClassLoader.close();
+        return new ModuleManagerImpl(moduleObjects, cycleLoader, plugin);
     }
 
-    public ModuleObject loadFile(File file) throws IOException, ClassNotFoundException {
-        final URL url = file.toURI().toURL();
-        final URLClassLoader urlClassLoader = URLClassLoader.newInstance(
-                new URL[]{url}, LIFE_CYCLE_CLASS_LOADER
-        );
+    @Override
+    public URLClassLoader resolveClasses(File[] moduleFiles) throws MalformedURLException {
+        URL[] urls = new URL[moduleFiles.length];
 
+        for (int i = 0; i < urls.length; i++) {
+            urls[i] = moduleFiles[i].toURI().toURL();
+        }
+
+        return URLClassLoader.newInstance(
+                urls,
+                LIFE_CYCLE_CLASS_LOADER
+        );
+    }
+
+    @Override
+    public ModuleObject loadFile(File file, ClassLoader classLoader) throws IOException, ClassNotFoundException {
         final String mainClass = loadJarFile(file);
-        final Class<?> clazz = urlClassLoader.loadClass(mainClass);
+        final Class<?> clazz = Class.forName(mainClass, true, classLoader);
 
         final Module moduleAnnotation = clazz.getAnnotation(MODULE_CLASS);
         if (moduleAnnotation == null) throw new NoSuchElementException("Sub-module should be annoted with @Module");
 
-        urlClassLoader.close();
         return new ModuleObject(mainClass, clazz, moduleAnnotation);
     }
 
+    @Override
     public String loadJarFile(File file) throws IOException {
         final JarFile jarFile = new JarFile(file);
 

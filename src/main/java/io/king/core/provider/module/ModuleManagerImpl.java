@@ -13,10 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public final class ModuleManagerImpl implements ModuleManager {
 
-    private final JavaPlugin plugin;
     private final List<ModuleObject> modules;
     private final CycleLoader cycleLoader;
+    private final JavaPlugin plugin;
 
+    @Override
     public ModuleObject findModuleByType(Class<?> clazz) {
         for (ModuleObject module : modules) {
             if (module.getModuleClass() == clazz) return module;
@@ -28,6 +29,15 @@ public final class ModuleManagerImpl implements ModuleManager {
     @Override
     public ModuleManager lifeCycle() throws Exception {
         for (ModuleObject module : modules) {
+            final Class<?> moduleClass = module.getModuleClass();
+            for (Class<?> soft : module.getModule().softDepend()) {
+                if (moduleClass == soft) throw new StackOverflowError(
+                        "Overflow on softDepend at module " + moduleClass.getSimpleName()
+                );
+
+                final ModuleObject moduleType = findModuleByType(soft);
+                cycleLoader.resolveCycle(moduleType);
+            }
             cycleLoader.resolveCycle(module);
         }
         return this;

@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.LinkedList;
 import java.util.List;
 
+@Getter
 @RequiredArgsConstructor
 public final class CycleLoaderImpl implements CycleLoader {
 
@@ -22,8 +23,8 @@ public final class CycleLoaderImpl implements CycleLoader {
     private static final Class<?> LIFE_CYCLE_CLASS = LifeCycle.class;
 
     static {
-        STRATEGY_CYCLE_LIST.add(new ImportsCycle());
         STRATEGY_CYCLE_LIST.add(new ConfigCycle());
+        STRATEGY_CYCLE_LIST.add(new ImportsCycle()); //template
         STRATEGY_CYCLE_LIST.add(new ServiceCycle());
         STRATEGY_CYCLE_LIST.add(new CommandCycle());
         STRATEGY_CYCLE_LIST.add(new EventCycle());
@@ -31,7 +32,6 @@ public final class CycleLoaderImpl implements CycleLoader {
 
     private final InjectionManager injectionManager;
 
-    @Getter
     private final ServiceManager serviceManager;
     private final LifeContext lifeContext;
     private final KingApi kingApi;

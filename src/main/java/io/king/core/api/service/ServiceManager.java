@@ -7,14 +7,6 @@ package io.king.core.api.service;
 public interface ServiceManager {
 
     /**
-     * Register type of service
-     *
-     * @param service instance of service
-     * @param type    type of registration
-     */
-    void registerServiceType(Object service, ServiceType type);
-
-    /**
      * Register services into service manager
      *
      * @param services instance of services

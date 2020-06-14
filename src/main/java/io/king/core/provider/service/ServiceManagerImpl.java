@@ -2,7 +2,6 @@ package io.king.core.provider.service;
 
 import io.king.core.api.service.ServiceEntity;
 import io.king.core.api.service.ServiceManager;
-import io.king.core.api.service.ServiceType;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -10,11 +9,6 @@ import java.util.Map;
 public final class ServiceManagerImpl implements ServiceManager {
 
     private final Map<Class<?>, ServiceEntity<?>> services = new LinkedHashMap<>();
-
-    @Override
-    public void registerServiceType(Object service, ServiceType type) {
-
-    }
 
     @Override
     public void registerServices(Object... services) {
@@ -34,6 +28,10 @@ public final class ServiceManagerImpl implements ServiceManager {
 
     @Override
     public ServiceEntity<?> getRegistrationService(Class<?> registration) {
-        return services.get(registration);
+        for (ServiceEntity<?> value : services.values()) {
+            if (!registration.isInstance(value.getService())) continue;
+            return value;
+        }
+        return null;
     }
 }

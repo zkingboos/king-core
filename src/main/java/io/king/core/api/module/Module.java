@@ -15,6 +15,8 @@ public @interface Module {
 
     Class<? extends Listener>[] events() default {};
 
+    Class<?>[] softDepend() default {};
+
     Class<?>[] imports() default {};
 
     Class<?>[] commands() default {};
