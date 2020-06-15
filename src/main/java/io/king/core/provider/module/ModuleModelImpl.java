@@ -6,11 +6,9 @@ import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.module.Module;
 import io.king.core.api.module.ModuleManager;
 import io.king.core.api.module.ModuleModel;
-import io.king.core.provider.Util;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -24,9 +22,7 @@ import java.util.jar.JarFile;
 public final class ModuleModelImpl implements ModuleModel {
 
     private static final ClassLoader LIFE_CYCLE_CLASS_LOADER = LifeCycle.class.getClassLoader();
-    private static final String FILE_MODULE_IDENTIFICATION = "module";
     private final static Class<Module> MODULE_CLASS = Module.class;
-    private static final Util UTIL = Util.getInstance();
 
     private final JavaPlugin plugin;
     private final File moduleFolder;
@@ -79,7 +75,11 @@ public final class ModuleModelImpl implements ModuleModel {
     @Override
     public ModuleObject loadFile(File file, ClassLoader classLoader) throws Exception {
         final ModuleProps moduleProps = loadJarFile(file, classLoader);
-        final Class<?> clazz = Class.forName(moduleProps.getMainClass(), true, classLoader);
+        final Class<?> clazz = Class.forName(
+                moduleProps.getMainClass().getName(),
+                true,
+                classLoader
+        );
 
         final Module moduleAnnotation = clazz.getAnnotation(MODULE_CLASS);
         if (moduleAnnotation == null) throw new NoSuchElementException("Sub-module should be annoted with @Module");
@@ -92,18 +92,11 @@ public final class ModuleModelImpl implements ModuleModel {
         final JarFile jarFile = new JarFile(file);
 
         final Enumeration<JarEntry> entries = jarFile.entries();
-        String mainClass = null;
+        Class<?> mainClass = null;
 
         while (entries.hasMoreElements()) {
             final JarEntry entry = entries.nextElement();
             if (entry.isDirectory()) continue;
-
-            if (entry.getName().equalsIgnoreCase(FILE_MODULE_IDENTIFICATION)) {
-                final InputStream inputStream = jarFile.getInputStream(entry);
-                mainClass = UTIL.loadBytes(inputStream).trim();
-                inputStream.close();
-                continue;
-            }
 
             /*
              * Replace me/author/Main.class to me.author.Main
@@ -111,12 +104,21 @@ public final class ModuleModelImpl implements ModuleModel {
             String name = entry.getName().replace("/", ".");
             if (name.endsWith(".class")) {
                 name = name.substring(0, name.length() - 6);
-                Class.forName(name, true, classLoader);
+                final Class<?> loadedClass = Class.forName(name, true, classLoader);
+
+                final boolean isPresent = loadedClass.isAnnotationPresent(MODULE_CLASS);
+                if (!isPresent) continue;
+
+                mainClass = loadedClass;
             }
         }
 
         final String jarFileName = jarFile.getName();
         jarFile.close();
+
+        if (mainClass == null) throw new NoSuchElementException(
+                "No classes were annotated with @Module in the file."
+        );
 
         return new ModuleProps(
                 mainClass, jarFileName

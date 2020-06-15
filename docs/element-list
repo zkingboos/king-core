@@ -1,3 +1,4 @@
+io.king.auth
 io.king.core.api
 io.king.core.api.cycle
 io.king.core.api.di
@@ -11,3 +12,6 @@ io.king.core.provider.di
 io.king.core.provider.module
 io.king.core.provider.service
 io.king.core.provider.yml
+io.king.view.provider
+io.king.view.provider.command
+io.king.view.provider.view

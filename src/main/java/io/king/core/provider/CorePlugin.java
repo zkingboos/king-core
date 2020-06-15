@@ -58,7 +58,6 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
             );
         } catch (Exception e) {
             e.printStackTrace();
-            coreLogger.warning(e.getMessage());
         }
     }
 
@@ -82,7 +81,6 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
             );
         } catch (Exception e) {
             e.printStackTrace();
-            coreLogger.warning(e.getMessage());
         }
     }
 
