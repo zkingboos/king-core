@@ -11,7 +11,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public final class ModuleObject {
 
-    private final String mainClass;
+    private final ModuleProps moduleProps;
     private final Class<?> moduleClass;
     private final Module module;
 

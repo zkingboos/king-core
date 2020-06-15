@@ -52,4 +52,12 @@ public interface ModuleManager {
      * @return instance of module
      */
     ModuleObject findModuleByType(Class<?> clazz);
+
+    /**
+     * Try to load life
+     *
+     * @param module instance of module object
+     * @throws Exception breaks?
+     */
+    void tryLoadLife(ModuleObject module) throws Exception;
 }

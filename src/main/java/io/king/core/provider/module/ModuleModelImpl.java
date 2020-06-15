@@ -10,7 +10,6 @@ import io.king.core.provider.Util;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -78,41 +77,49 @@ public final class ModuleModelImpl implements ModuleModel {
     }
 
     @Override
-    public ModuleObject loadFile(File file, ClassLoader classLoader) throws IOException, ClassNotFoundException {
-        final String mainClass = loadJarFile(file);
-        final Class<?> clazz = Class.forName(mainClass, true, classLoader);
+    public ModuleObject loadFile(File file, ClassLoader classLoader) throws Exception {
+        final ModuleProps moduleProps = loadJarFile(file, classLoader);
+        final Class<?> clazz = Class.forName(moduleProps.getMainClass(), true, classLoader);
 
         final Module moduleAnnotation = clazz.getAnnotation(MODULE_CLASS);
         if (moduleAnnotation == null) throw new NoSuchElementException("Sub-module should be annoted with @Module");
 
-        return new ModuleObject(mainClass, clazz, moduleAnnotation);
+        return new ModuleObject(moduleProps, clazz, moduleAnnotation);
     }
 
     @Override
-    public String loadJarFile(File file) throws IOException {
+    public ModuleProps loadJarFile(File file, ClassLoader classLoader) throws Exception {
         final JarFile jarFile = new JarFile(file);
 
         final Enumeration<JarEntry> entries = jarFile.entries();
+        String mainClass = null;
+
         while (entries.hasMoreElements()) {
             final JarEntry entry = entries.nextElement();
-            if (entry.isDirectory() || !entry.getName().equalsIgnoreCase(FILE_MODULE_IDENTIFICATION)) continue;
+            if (entry.isDirectory()) continue;
 
-            final InputStream inputStream = jarFile.getInputStream(entry);
-            final String trim = UTIL.loadBytes(inputStream).trim();
+            if (entry.getName().equalsIgnoreCase(FILE_MODULE_IDENTIFICATION)) {
+                final InputStream inputStream = jarFile.getInputStream(entry);
+                mainClass = UTIL.loadBytes(inputStream).trim();
+                inputStream.close();
+                continue;
+            }
 
             /*
-             * Close the streams
+             * Replace me/author/Main.class to me.author.Main
              */
-            inputStream.close();
-            jarFile.close();
-
-            return trim;
+            String name = entry.getName().replace("/", ".");
+            if (name.endsWith(".class")) {
+                name = name.substring(0, name.length() - 6);
+                Class.forName(name, true, classLoader);
+            }
         }
 
-        /*
-         * Close the stream
-         */
+        final String jarFileName = jarFile.getName();
         jarFile.close();
-        return null;
+
+        return new ModuleProps(
+                mainClass, jarFileName
+        );
     }
 }

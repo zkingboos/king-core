@@ -17,6 +17,7 @@ import io.king.core.provider.service.ServiceManagerImpl;
 import io.king.core.provider.yml.FileYml;
 import lombok.Getter;
 import me.saiintbrisson.commands.CommandFrame;
+import me.saiintbrisson.inventory.InventoryFrame;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -33,6 +34,7 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
 
     private InjectionManager injectionManager;
     private final JavaPlugin plugin = this;
+    private InventoryFrame inventoryFrame;
     private ModuleManager moduleManager;
     private CommandFrame commandFrame;
     private CycleLoader cycleLoader;
@@ -64,6 +66,8 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
     public void onEnable() {
         configYml = new FileYml(this, "config.yml").load();
         commandFrame = new CommandFrame(this);
+        inventoryFrame = new InventoryFrame(this);
+        inventoryFrame.registerListener();
 
         /*
          * Register command frame in service

@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Class-Path: libs/command-framework--eed43b62e8-1.jar
+Class-Path: libs/command-framework--eed43b62e8-1.jar libs/inventory-framework-9d81b48a25.jar

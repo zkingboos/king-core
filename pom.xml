@@ -32,6 +32,12 @@
     <dependencies>
         <dependency>
             <groupId>com.github.SaiintBrisson</groupId>
+            <artifactId>inventory-framework</artifactId>
+            <version>9d81b48a25</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.SaiintBrisson</groupId>
             <artifactId>command-framework</artifactId>
             <version>-eed43b62e8-1</version>
             <scope>compile</scope>

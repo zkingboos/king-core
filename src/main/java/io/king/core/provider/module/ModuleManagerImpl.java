@@ -26,19 +26,28 @@ public final class ModuleManagerImpl implements ModuleManager {
         return null;
     }
 
+    public void tryLoadLife(ModuleObject module) throws Exception {
+        final Class<?> moduleClass = module.getModuleClass();
+        for (Class<?> soft : module.getModule().softDepend()) {
+            if (moduleClass == soft) throw new StackOverflowError(
+                    "Overflow on softDepend at module " + moduleClass.getSimpleName()
+            );
+
+            final ModuleObject moduleType = findModuleByType(soft);
+            if (moduleType == null) throw new StackOverflowError(
+                    "Module not found"
+            );
+
+            tryLoadLife(moduleType);
+        }
+
+        cycleLoader.resolveCycle(module);
+    }
+
     @Override
     public ModuleManager lifeCycle() throws Exception {
         for (ModuleObject module : modules) {
-            final Class<?> moduleClass = module.getModuleClass();
-            for (Class<?> soft : module.getModule().softDepend()) {
-                if (moduleClass == soft) throw new StackOverflowError(
-                        "Overflow on softDepend at module " + moduleClass.getSimpleName()
-                );
-
-                final ModuleObject moduleType = findModuleByType(soft);
-                cycleLoader.resolveCycle(moduleType);
-            }
-            cycleLoader.resolveCycle(module);
+            tryLoadLife(module);
         }
         return this;
     }

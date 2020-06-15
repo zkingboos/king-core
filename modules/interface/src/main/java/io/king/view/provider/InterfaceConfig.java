@@ -5,6 +5,6 @@ import io.king.core.api.module.ModuleConfig;
 public final class InterfaceConfig extends ModuleConfig {
 
     public InterfaceConfig() {
-        super("zkingboos_", "An interface to manage modules.", null);
+        super("InterfaceConfig", "zkingboos_", "An interface to manage modules.", null);
     }
 }

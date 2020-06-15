@@ -53,6 +53,7 @@ public final class CycleLoaderImpl implements CycleLoader {
             strategyCycle.setup(kingApi, this, moduleObject);
         }
 
+        serviceManager.registerService(moduleInstance);
         moduleObject.setModuleStage(ModuleStage.LOADED);
         notifyModule(lifeCycle);
     }
