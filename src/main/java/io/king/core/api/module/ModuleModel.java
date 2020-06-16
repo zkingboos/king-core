@@ -49,5 +49,5 @@ public interface ModuleModel {
      * @return main class of module
      * @throws IOException not found file
      */
-    ModuleProps loadJarFile(File file, ClassLoader classLoader) throws IOException, Exception;
+    ModuleProps loadJarFile(File file, ClassLoader classLoader) throws Exception;
 }

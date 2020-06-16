@@ -1,5 +1,7 @@
 package io.king.core.api.di;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * Used to inject instances of fields annoted with @Inject
  */
@@ -13,4 +15,13 @@ public interface InjectionManager {
      * @throws IllegalAccessException cant set field value
      */
     void injectIntoService(Object objectInstance, Class<?> clazz) throws IllegalAccessException;
+
+    /**
+     * Inject on constructor @InjectClass
+     *
+     * @param clazz type of class
+     * @return instance of class
+     * @throws Exception denied permission constructor access
+     */
+    Object injectIntoClass(Class<?> clazz) throws Exception;
 }

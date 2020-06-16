@@ -14,6 +14,6 @@ public final class ModuleView {
     @Command(name = "module")
     public void mainModule(Execution execution) {
         final Player player = execution.getPlayer();
-        moduleGui.show(player);
+        moduleGui.showInventory(player);
     }
 }

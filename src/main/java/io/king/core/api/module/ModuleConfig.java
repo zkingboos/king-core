@@ -1,6 +1,7 @@
 package io.king.core.api.module;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -10,5 +11,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public abstract class ModuleConfig {
-    private final String name, author, description, hashId;
+
+    @NonNull
+    private final String name, author, description;
+
+    private final String hashId;
 }

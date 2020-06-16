@@ -74,6 +74,8 @@ public final class ModuleModelImpl implements ModuleModel {
 
     @Override
     public ModuleObject loadFile(File file, ClassLoader classLoader) throws Exception {
+        final long oldMsTime = System.currentTimeMillis();
+
         final ModuleProps moduleProps = loadJarFile(file, classLoader);
         final Class<?> clazz = Class.forName(
                 moduleProps.getMainClass().getName(),
@@ -82,9 +84,19 @@ public final class ModuleModelImpl implements ModuleModel {
         );
 
         final Module moduleAnnotation = clazz.getAnnotation(MODULE_CLASS);
-        if (moduleAnnotation == null) throw new NoSuchElementException("Sub-module should be annoted with @Module");
+        if (moduleAnnotation == null) throw new NoSuchElementException(
+                "Sub-module should be annoted with @Module"
+        );
 
-        return new ModuleObject(moduleProps, clazz, moduleAnnotation);
+        final long newMsTime = System.currentTimeMillis();
+        final long delayedLoad = newMsTime - oldMsTime;
+
+        return new ModuleObject(
+                moduleProps,
+                clazz,
+                moduleAnnotation,
+                delayedLoad
+        );
     }
 
     @Override
@@ -120,8 +132,9 @@ public final class ModuleModelImpl implements ModuleModel {
                 "No classes were annotated with @Module in the file."
         );
 
+        final long loadedAtTime = System.currentTimeMillis();
         return new ModuleProps(
-                mainClass, jarFileName
+                mainClass, jarFileName, loadedAtTime
         );
     }
 }

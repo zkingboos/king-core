@@ -1,5 +1,6 @@
 package io.king.core.api.cycle;
 
+import io.king.core.api.di.InjectionManager;
 import io.king.core.api.service.ServiceManager;
 import io.king.core.provider.module.ModuleObject;
 
@@ -15,6 +16,13 @@ public interface CycleLoader {
      * @return instance of service manager
      */
     ServiceManager getServiceManager();
+
+    /**
+     * Injection manager of DI
+     *
+     * @return instance of injection
+     */
+    InjectionManager getInjectionManager();
 
     /**
      * Used to resolve life-cycles from @ServiceManager

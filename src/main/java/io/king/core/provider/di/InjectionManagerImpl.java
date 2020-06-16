@@ -6,7 +6,12 @@ import io.king.core.api.service.ServiceEntity;
 import io.king.core.api.service.ServiceManager;
 import lombok.RequiredArgsConstructor;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Parameter;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
@@ -32,5 +37,35 @@ public final class InjectionManagerImpl implements InjectionManager {
             field.set(objectInstance, serviceObject);
             field.setAccessible(accessible);
         }
+    }
+
+    @Override
+    public Object injectIntoClass(Class<?> clazz) throws Exception {
+
+        mainLoop:
+        for (Constructor<?> constructor : clazz.getDeclaredConstructors()) {
+            final int parameterCount = constructor.getParameterCount();
+
+            final Parameter[] parameters = constructor.getParameters();
+            final Object[] objects = new Object[parameterCount];
+
+            for (int i = 0; i < parameters.length; i++) {
+                final Parameter type = parameters[i];
+                if(!type.isAnnotationPresent(INJECT_CLASS)) continue mainLoop;
+
+                final ServiceEntity<?> registration = serviceManager.getRegistrationService(
+                        type.getType()
+                );
+
+                if(registration == null) throw new NoSuchElementException();
+
+                objects[i] = registration.getService();
+            }
+
+            final Object objectInstance = constructor.newInstance(objects);
+            serviceManager.registerServices(objectInstance);
+            return objectInstance;
+        }
+        return null;
     }
 }

@@ -4,6 +4,8 @@ import io.king.core.api.KingApi;
 import io.king.core.api.cycle.CycleLoader;
 import io.king.core.api.cycle.LifeContext;
 import io.king.core.api.cycle.LifeCycle;
+import io.king.core.api.di.Inject;
+import io.king.core.api.di.Injectable;
 import io.king.core.api.di.InjectionManager;
 import io.king.core.api.module.stage.ModuleStage;
 import io.king.core.api.service.ServiceManager;
@@ -20,7 +22,9 @@ import java.util.List;
 public final class CycleLoaderImpl implements CycleLoader {
 
     private static final List<StrategyCycle> STRATEGY_CYCLE_LIST = new LinkedList<>();
+    private static final Class<Injectable> INJECTABLE_CLASS = Injectable.class;
     private static final Class<?> LIFE_CYCLE_CLASS = LifeCycle.class;
+    private static final Class<Inject> INJECT_CLASS = Inject.class;
 
     static {
         STRATEGY_CYCLE_LIST.add(new ConfigCycle());
@@ -60,9 +64,12 @@ public final class CycleLoaderImpl implements CycleLoader {
 
     @Override
     public Object initialize(Class<?> clazz) throws Exception {
-        final Object objectInstance = clazz.newInstance();
-        injectionManager.injectIntoService(objectInstance, clazz);
+        final boolean isPresent = clazz.isAnnotationPresent(INJECTABLE_CLASS);
+        final Object objectInstance = isPresent ?
+                injectionManager.injectIntoClass(clazz) :
+                clazz.newInstance();
 
+        injectionManager.injectIntoService(objectInstance, clazz);
         return objectInstance;
     }
 

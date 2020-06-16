@@ -4,10 +4,14 @@ import io.king.core.api.cycle.LifeContext;
 import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.module.Module;
 import io.king.view.provider.command.ModuleView;
+import io.king.view.provider.time.TimeService;
+import io.king.view.provider.view.EntityGui;
 import io.king.view.provider.view.ViewService;
 
 @Module(
-        services = {ViewService.class},
+        services = {
+                TimeService.class, EntityGui.class, ViewService.class
+        },
         commands = {ModuleView.class},
         config = InterfaceConfig.class
 )

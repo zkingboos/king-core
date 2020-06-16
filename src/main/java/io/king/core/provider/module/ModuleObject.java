@@ -14,6 +14,7 @@ public final class ModuleObject {
     private final ModuleProps moduleProps;
     private final Class<?> moduleClass;
     private final Module module;
+    private final long loadDuration;
 
     @Setter
     private ModuleStage moduleStage = ModuleStage.NOT_LOADED;
