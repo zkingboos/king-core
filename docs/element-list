@@ -14,4 +14,5 @@ io.king.core.provider.service
 io.king.core.provider.yml
 io.king.view.provider
 io.king.view.provider.command
+io.king.view.provider.time
 io.king.view.provider.view
