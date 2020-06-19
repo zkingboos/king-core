@@ -13,7 +13,13 @@ import lombok.RequiredArgsConstructor;
 public abstract class ModuleConfig {
 
     @NonNull
-    private final String name, author, description;
+    private final String name;
+
+    @NonNull
+    private final String author;
+
+    @NonNull
+    private final String description;
 
     private final String hashId;
 }
