@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
@@ -51,13 +48,13 @@ public final class InjectionManagerImpl implements InjectionManager {
 
             for (int i = 0; i < parameters.length; i++) {
                 final Parameter type = parameters[i];
-                if(!type.isAnnotationPresent(INJECT_CLASS)) continue mainLoop;
+                if (!type.isAnnotationPresent(INJECT_CLASS)) continue mainLoop;
 
                 final ServiceEntity<?> registration = serviceManager.getRegistrationService(
                         type.getType()
                 );
 
-                if(registration == null) throw new NoSuchElementException();
+                if (registration == null) throw new NoSuchElementException();
 
                 objects[i] = registration.getService();
             }

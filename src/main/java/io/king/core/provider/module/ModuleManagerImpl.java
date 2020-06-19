@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Getter
 @RequiredArgsConstructor
@@ -29,12 +30,12 @@ public final class ModuleManagerImpl implements ModuleManager {
     public void tryLoadLife(ModuleObject module) throws Exception {
         final Class<?> moduleClass = module.getModuleClass();
         for (Class<?> soft : module.getModule().softDepend()) {
-            if (moduleClass == soft) throw new StackOverflowError(
+            if (moduleClass.equals(soft)) throw new StackOverflowError(
                     "Overflow on softDepend at module " + moduleClass.getSimpleName()
             );
 
             final ModuleObject moduleType = findModuleByType(soft);
-            if (moduleType == null) throw new StackOverflowError(
+            if (moduleType == null) throw new NoSuchElementException(
                     "Module not found"
             );
 

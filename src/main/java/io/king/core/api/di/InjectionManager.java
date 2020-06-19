@@ -1,7 +1,5 @@
 package io.king.core.api.di;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * Used to inject instances of fields annoted with @Inject
  */
