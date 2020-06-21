@@ -4,19 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.king.core</groupId>
+    <groupId>io.king.module</groupId>
     <artifactId>core</artifactId>
-    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>modules/authenticator</module>
-        <module>modules/interface</module>
-    </modules>
 
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Maven packages</name>
+            <url>https://maven.pkg.github.com/codeproton/king-core</url>
+        </repository>
+    </distributionManagement>
 
     <repositories>
         <repository>
