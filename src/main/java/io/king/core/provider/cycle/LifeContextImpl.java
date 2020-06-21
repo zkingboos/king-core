@@ -32,7 +32,7 @@ public final class LifeContextImpl implements LifeContext {
     }
 
     @Override
-    public boolean isModule(){
+    public boolean isModule() {
         return moduleObject != null;
     }
 
