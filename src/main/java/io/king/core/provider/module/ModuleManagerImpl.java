@@ -1,6 +1,7 @@
 package io.king.core.provider.module;
 
 import io.king.core.api.cycle.CycleLoader;
+import io.king.core.api.cycle.LifeContext;
 import io.king.core.api.module.ModuleManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +63,8 @@ public final class ModuleManagerImpl implements ModuleManager {
     @Override
     public void orderShutdown() {
         for (ModuleObject module : modules) {
-            cycleLoader.notifyDisposeModule(module);
+            final LifeContext lifeContext = cycleLoader.resolveContext(module);
+            cycleLoader.notifyDisposeModule(module, lifeContext);
         }
     }
 }

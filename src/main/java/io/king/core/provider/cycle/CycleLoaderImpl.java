@@ -13,9 +13,12 @@ import io.king.core.provider.cycle.strategy.*;
 import io.king.core.provider.module.ModuleObject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
@@ -34,10 +37,10 @@ public final class CycleLoaderImpl implements CycleLoader {
         STRATEGY_CYCLE_LIST.add(new EventCycle());
     }
 
-    private final InjectionManager injectionManager;
+    private final Map<Class<?>, LifeContext> lifeContextMap = new LinkedHashMap<>();
 
+    private final InjectionManager injectionManager;
     private final ServiceManager serviceManager;
-    private final LifeContext lifeContext;
     private final KingApi kingApi;
 
     public void resolveCycle(ModuleObject moduleObject) throws Exception {
@@ -51,7 +54,9 @@ public final class CycleLoaderImpl implements CycleLoader {
         moduleObject.setModuleInstance(moduleInstance);
 
         final LifeCycle lifeCycle = initializeLife(moduleInstance);
-        preNotifyModule(lifeCycle);
+        final LifeContext lifeContext = resolveContext(moduleObject);
+
+        preNotifyModule(lifeCycle, lifeContext);
 
         for (StrategyCycle strategyCycle : STRATEGY_CYCLE_LIST) {
             strategyCycle.setup(kingApi, this, moduleObject);
@@ -59,7 +64,24 @@ public final class CycleLoaderImpl implements CycleLoader {
 
         serviceManager.registerService(moduleInstance);
         moduleObject.setModuleStage(ModuleStage.LOADED);
-        notifyModule(lifeCycle);
+        notifyModule(lifeCycle, lifeContext);
+    }
+
+    @Override
+    public LifeContext resolveContext(ModuleObject moduleObject) {
+        final Class<?> moduleClass = moduleObject.getModuleClass();
+
+        final LifeContext lifeContext = lifeContextMap.get(moduleClass);
+        if (lifeContext != null) return lifeContext;
+
+        final LifeContextImpl value = new LifeContextImpl(
+                serviceManager,
+                moduleObject,
+                (JavaPlugin) kingApi
+        );
+
+        lifeContextMap.put(moduleClass, value);
+        return value;
     }
 
     @Override
@@ -74,19 +96,19 @@ public final class CycleLoaderImpl implements CycleLoader {
     }
 
     @Override
-    public void preNotifyModule(LifeCycle lifeCycle) {
+    public void preNotifyModule(LifeCycle lifeCycle, LifeContext lifeContext) {
         if (lifeCycle == null) return;
         lifeCycle.preInit(lifeContext);
     }
 
     @Override
-    public void notifyModule(LifeCycle lifeCycle) {
+    public void notifyModule(LifeCycle lifeCycle, LifeContext lifeContext) {
         if (lifeCycle == null) return;
         lifeCycle.init(lifeContext);
     }
 
     @Override
-    public void notifyDisposeModule(ModuleObject objectModule) {
+    public void notifyDisposeModule(ModuleObject objectModule, LifeContext lifeContext) {
         final Object moduleInstance = objectModule.getModuleInstance();
         final LifeCycle lifeCycle = initializeLife(moduleInstance);
 

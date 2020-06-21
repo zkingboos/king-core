@@ -2,6 +2,7 @@ package io.king.core.provider.cycle.strategy;
 
 import io.king.core.api.KingApi;
 import io.king.core.api.cycle.CycleLoader;
+import io.king.core.api.cycle.LifeContext;
 import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.module.Module;
 import io.king.core.api.service.Service;
@@ -19,15 +20,17 @@ public final class ServiceCycle implements StrategyCycle {
         final ServiceManager serviceManager = loader.getServiceManager();
         final Module module = moduleObject.getModule();
 
+        final LifeContext lifeContext = loader.resolveContext(moduleObject);
+
         for (Class<?> service : module.services()) {
             final boolean isPresent = service.isAnnotationPresent(SERVICE_CLASS);
-            if (!isPresent) throw new NoSuchElementException("Service should be annoted with @Service");
+            if (!isPresent) throw new NoSuchElementException("Service should be annotated with @Service");
 
             final Object objectInstance = loader.initialize(service);
             final LifeCycle lifeCycle = loader.initializeLife(objectInstance);
 
             serviceManager.registerService(objectInstance);
-            loader.notifyModule(lifeCycle);
+            loader.notifyModule(lifeCycle, lifeContext);
         }
     }
 }

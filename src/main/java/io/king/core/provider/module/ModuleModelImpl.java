@@ -1,7 +1,6 @@
 package io.king.core.provider.module;
 
 import io.king.core.api.cycle.CycleLoader;
-import io.king.core.api.cycle.LifeContext;
 import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.module.Module;
 import io.king.core.api.module.ModuleManager;
@@ -28,11 +27,11 @@ public final class ModuleModelImpl implements ModuleModel {
     private final File moduleFolder;
     private final CycleLoader cycleLoader;
 
-    public ModuleModelImpl(JavaPlugin plugin, CycleLoader loader, LifeContext context) {
-        this(plugin, loader, context, "/modules");
+    public ModuleModelImpl(JavaPlugin plugin, CycleLoader loader) {
+        this(plugin, loader, "/modules");
     }
 
-    public ModuleModelImpl(JavaPlugin plugin, CycleLoader cycleLoader, LifeContext context, String folder) {
+    public ModuleModelImpl(JavaPlugin plugin, CycleLoader cycleLoader, String folder) {
         this.moduleFolder = new File(plugin.getDataFolder(), folder);
         this.cycleLoader = cycleLoader;
         this.plugin = plugin;
@@ -85,7 +84,7 @@ public final class ModuleModelImpl implements ModuleModel {
 
         final Module moduleAnnotation = clazz.getAnnotation(MODULE_CLASS);
         if (moduleAnnotation == null) throw new NoSuchElementException(
-                "Sub-module should be annoted with @Module"
+                "Sub-module should be annotated with @Module"
         );
 
         final long newMsTime = System.currentTimeMillis();

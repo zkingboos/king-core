@@ -44,23 +44,26 @@ public interface CycleLoader {
     /**
      * Notify the life cycles that module has been initialized
      *
-     * @param lifeCycle life of cycle
+     * @param lifeCycle   life of cycle
+     * @param lifeContext instance of life context
      */
-    void notifyModule(LifeCycle lifeCycle);
+    void notifyModule(LifeCycle lifeCycle, LifeContext lifeContext);
 
     /**
      * Pre notify the life cycles that module has been fired
      *
-     * @param lifeCycle life of cycle
+     * @param lifeCycle   life of cycle
+     * @param lifeContext instance of life context
      */
-    void preNotifyModule(LifeCycle lifeCycle);
+    void preNotifyModule(LifeCycle lifeCycle, LifeContext lifeContext);
 
     /**
      * Dispose module
      *
      * @param objectModule instance of module
+     * @param lifeContext  instance of life context
      */
-    void notifyDisposeModule(ModuleObject objectModule);
+    void notifyDisposeModule(ModuleObject objectModule, LifeContext lifeContext);
 
     /**
      * Initialize life of cycle
@@ -69,4 +72,12 @@ public interface CycleLoader {
      * @return the instance of lifecycle
      */
     LifeCycle initializeLife(Object moduleInstance);
+
+    /**
+     * Resolve life context
+     *
+     * @param moduleObject instance of module object
+     * @return instance of life context
+     */
+    LifeContext resolveContext(ModuleObject moduleObject);
 }

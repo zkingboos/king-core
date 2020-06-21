@@ -2,6 +2,7 @@ package io.king.core.provider.cycle.strategy;
 
 import io.king.core.api.KingApi;
 import io.king.core.api.cycle.CycleLoader;
+import io.king.core.api.cycle.LifeContext;
 import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.module.Module;
 import io.king.core.provider.module.ModuleObject;
@@ -18,8 +19,9 @@ public final class EventCycle implements StrategyCycle {
     @Override
     public void setup(KingApi kingApi, CycleLoader loader, ModuleObject moduleObject) throws Exception {
         final PluginManager pluginManager = Bukkit.getPluginManager();
-
         final Module module = moduleObject.getModule();
+
+        final LifeContext lifeContext = loader.resolveContext(moduleObject);
 
         for (Class<? extends Listener> event : module.events()) {
             final Object objectInstance = loader.initialize(event);
@@ -29,8 +31,10 @@ public final class EventCycle implements StrategyCycle {
 
             final LifeCycle lifeCycle = loader.initializeLife(objectInstance);
 
-            pluginManager.registerEvents((Listener) objectInstance, kingApi.getPlugin());
-            loader.notifyModule(lifeCycle);
+            pluginManager.registerEvents(
+                    (Listener) objectInstance, kingApi.getPlugin()
+            );
+            loader.notifyModule(lifeCycle, lifeContext);
         }
     }
 }

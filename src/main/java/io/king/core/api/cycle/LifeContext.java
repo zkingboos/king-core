@@ -1,6 +1,7 @@
 package io.king.core.api.cycle;
 
 import io.king.core.api.service.Service;
+import io.king.core.provider.module.ModuleObject;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -27,6 +28,13 @@ public interface LifeContext {
     Logger getLogger();
 
     /**
+     * Object of module
+     *
+     * @return instance of module object
+     */
+    ModuleObject getModuleObject();
+
+    /**
      * Shortcut to get services from @ServiceManager
      *
      * @param registration class of type
@@ -41,4 +49,11 @@ public interface LifeContext {
      * @param services instance of services
      */
     void registerServices(Object... services);
+
+    /**
+     * Verify if the life context is a module
+     *
+     * @return result
+     */
+    boolean isModule();
 }

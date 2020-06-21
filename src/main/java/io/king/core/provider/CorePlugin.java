@@ -31,9 +31,9 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
     private final ModuleContainer moduleContainer = new ModuleContainerImpl();
     private final ServiceManager serviceManager = new ServiceManagerImpl();
     private final Logger coreLogger = getLogger();
+    private final JavaPlugin plugin = this;
 
     private InjectionManager injectionManager;
-    private final JavaPlugin plugin = this;
     private InventoryFrame inventoryFrame;
     private ModuleManager moduleManager;
     private CommandFrame commandFrame;
@@ -44,17 +44,18 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
     @Override
     public void onLoad() {
         try {
-            context = new LifeContextImpl(this, serviceManager);
+            context = new LifeContextImpl(serviceManager, null, this);
 
             injectionManager = new InjectionManagerImpl(serviceManager);
-            cycleLoader = new CycleLoaderImpl(injectionManager, serviceManager, context, this);
-            final ModuleModel moduleModel = new ModuleModelImpl(this, cycleLoader, context);
+            cycleLoader = new CycleLoaderImpl(injectionManager, serviceManager, this);
+            final ModuleModel moduleModel = new ModuleModelImpl(this, cycleLoader);
 
             coreLogger.info("Trying to load modules from default folder.");
             moduleManager = moduleModel.load();
             coreLogger.info(
                     String.format("Loaded %s modules from default folder.",
-                            moduleManager.getModules().size())
+                            moduleManager.getModules().size()
+                    )
             );
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,7 +73,13 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
          * Register command frame in service
          * Used to share the instance to others modules
          */
-        serviceManager.registerServices(commandFrame, context, this);
+        serviceManager.registerServices(
+                configYml,
+                inventoryFrame,
+                commandFrame,
+                context,
+                this
+        );
 
         try {
             moduleContainer.registerManager(

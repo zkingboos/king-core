@@ -1,7 +1,7 @@
 package io.king.core.api.di;
 
 /**
- * Used to inject instances of fields annoted with @Inject
+ * Used to inject instances of fields annotated with @Inject
  */
 public interface InjectionManager {
 
