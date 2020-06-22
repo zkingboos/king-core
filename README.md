@@ -1,0 +1,2 @@
+# king-core
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/db512cf222ed444abec13254da0aaf48)](https://app.codacy.com/gh/codeproton/king-core?utm_source=github.com&utm_medium=referral&utm_content=codeproton/king-core&utm_campaign=Badge_Grade_Settings)
