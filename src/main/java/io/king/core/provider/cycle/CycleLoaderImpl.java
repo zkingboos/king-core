@@ -57,12 +57,12 @@ public final class CycleLoaderImpl implements CycleLoader {
         final LifeContext lifeContext = resolveContext(moduleObject);
 
         preNotifyModule(lifeCycle, lifeContext);
+        serviceManager.registerService(moduleInstance);
 
         for (StrategyCycle strategyCycle : STRATEGY_CYCLE_LIST) {
             strategyCycle.setup(kingApi, this, moduleObject);
         }
 
-        serviceManager.registerService(moduleInstance);
         moduleObject.setModuleStage(ModuleStage.LOADED);
         notifyModule(lifeCycle, lifeContext);
     }
