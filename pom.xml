@@ -42,7 +42,7 @@
         <dependency>
             <groupId>com.github.SaiintBrisson</groupId>
             <artifactId>command-framework</artifactId>
-            <version>-eed43b62e8-1</version>
+            <version>master-d3a3513b4d-1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
