@@ -17,7 +17,8 @@ To run it is necessary that you have the following contents installed:
   * [Library dependencies](https://github.com/codeproton/king-core/releases/tag/libraries).
 
 ## Getting-started
-Add the plugin in your `/plugins/` folder and move the [libraries](#system-requirements) to `/plugins/libs/` folder, than move the all modules to `/plugins/KCore/modules/` folder.
+Download the latest version of plugin on [releases](https://github.com/codeproton/king-core/releases/latest) and move it to `/plugins/` folder.
+The modules are loaded from `/plugins/KCore/modules`.
 
 ## Documentation
 You can see the project documentation [here](https://codeproton.github.io/king-core)
