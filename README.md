@@ -1,5 +1,6 @@
 # king-core
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/927a0d0c8d7a46cba00750343b46da7e)](https://www.codacy.com/gh/codeproton/king-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codeproton/king-core&amp;utm_campaign=Badge_Grade)
+[![](https://jitpack.io/v/codeproton/king-core.svg)](https://jitpack.io/#codeproton/king-core)
 
 Module's ecosystem and DI (Dependency Injection) 
 
@@ -24,6 +25,38 @@ The modules are loaded from `/plugins/KCore/modules`.
 You can see the project documentation [here](https://codeproton.github.io/king-core)
 
 ## Development
+Using github packages: 
+
+Maven:
+```xml
+<dependencies>
+    <dependency>
+      <groupId>io.king.module</groupId>
+      <artifactId>core</artifactId>
+      <version>VERSION</version>
+    </dependency>
+</dependencies>
+```
+> Later use mvn install
+
+Using jitpack: 
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+	    <url>https://jitpack.io</url>
+	</repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.codeproton</groupId>
+        <artifactId>king-core</artifactId>
+        <version>VERSION</version>
+    </dependency>
+</dependencies>
+```
+
 If you're a developer and wants to develop a module to ecosystem, you can see examples on wiki or in the examples bellow.
 
 > To start you need to create the configuration from your module
