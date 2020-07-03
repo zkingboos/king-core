@@ -15,7 +15,6 @@ Module's ecosystem and DI (Dependency Injection)
 ## System requirements
 To run it is necessary that you have the following contents installed:
   * [JRE](https://www.java.com/pt_BR/download/) 8 or higher.
-  * [Library dependencies](https://github.com/codeproton/king-core/releases/tag/libraries).
 
 ## Getting-started
 Download the latest version of plugin on [releases](https://github.com/codeproton/king-core/releases/latest) and move it to `/plugins/` folder.
