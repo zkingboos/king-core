@@ -4,11 +4,13 @@ import io.king.core.api.KingApi;
 import io.king.core.api.cycle.CycleLoader;
 import io.king.core.api.cycle.LifeContext;
 import io.king.core.api.cycle.LifeCycle;
+import io.king.core.api.cycle.LifeEvent;
 import io.king.core.api.di.Inject;
 import io.king.core.api.di.Injectable;
 import io.king.core.api.di.InjectionManager;
 import io.king.core.api.module.stage.ModuleStage;
 import io.king.core.api.service.ServiceManager;
+import io.king.core.provider.cycle.event.ModuleInitialized;
 import io.king.core.provider.cycle.strategy.*;
 import io.king.core.provider.module.ModuleObject;
 import lombok.Getter;
@@ -41,6 +43,7 @@ public final class CycleLoaderImpl implements CycleLoader {
 
     private final InjectionManager injectionManager;
     private final ServiceManager serviceManager;
+    private final LifeEvent lifeEvent;
     private final KingApi kingApi;
 
     public void resolveCycle(ModuleObject moduleObject) throws Exception {
@@ -64,6 +67,8 @@ public final class CycleLoaderImpl implements CycleLoader {
         }
 
         moduleObject.setModuleStage(ModuleStage.LOADED);
+        lifeEvent.notifyListeners(new ModuleInitialized(moduleObject));
+
         notifyModule(lifeCycle, lifeContext);
     }
 
@@ -77,7 +82,8 @@ public final class CycleLoaderImpl implements CycleLoader {
         final LifeContextImpl value = new LifeContextImpl(
                 serviceManager,
                 moduleObject,
-                (JavaPlugin) kingApi
+                (JavaPlugin) kingApi,
+                lifeEvent
         );
 
         lifeContextMap.put(moduleClass, value);

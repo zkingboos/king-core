@@ -1,6 +1,7 @@
 package io.king.core.provider.cycle;
 
 import io.king.core.api.cycle.LifeContext;
+import io.king.core.api.cycle.LifeEvent;
 import io.king.core.api.service.ServiceEntity;
 import io.king.core.api.service.ServiceManager;
 import io.king.core.provider.module.ModuleObject;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 @Getter
@@ -17,6 +19,7 @@ public final class LifeContextImpl implements LifeContext {
     private final ServiceManager serviceManager;
     private final ModuleObject moduleObject;
     private final JavaPlugin corePlugin;
+    private final LifeEvent lifeEvent;
 
     @Override
     public <T> T getService(Class<?> registration) {
@@ -34,6 +37,11 @@ public final class LifeContextImpl implements LifeContext {
     @Override
     public boolean isModule() {
         return moduleObject != null;
+    }
+
+    @Override
+    public <T> void registerEvent(Class<T> clazz, Consumer<T> consumer) {
+        lifeEvent.registerEvent(clazz, consumer);
     }
 
     @Override

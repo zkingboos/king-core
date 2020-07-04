@@ -3,6 +3,7 @@ package io.king.core.provider;
 import io.king.core.api.KingApi;
 import io.king.core.api.cycle.CycleLoader;
 import io.king.core.api.cycle.LifeContext;
+import io.king.core.api.cycle.LifeEvent;
 import io.king.core.api.di.InjectionManager;
 import io.king.core.api.module.ModuleContainer;
 import io.king.core.api.module.ModuleManager;
@@ -10,6 +11,7 @@ import io.king.core.api.module.ModuleModel;
 import io.king.core.api.service.ServiceManager;
 import io.king.core.provider.cycle.CycleLoaderImpl;
 import io.king.core.provider.cycle.LifeContextImpl;
+import io.king.core.provider.cycle.LifeEventImpl;
 import io.king.core.provider.di.InjectionManagerImpl;
 import io.king.core.provider.module.ModuleContainerImpl;
 import io.king.core.provider.module.ModuleModelImpl;
@@ -39,15 +41,17 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
     private CommandFrame commandFrame;
     private CycleLoader cycleLoader;
     private LifeContext context;
+    private LifeEvent lifeEvent;
     private FileYml configYml;
 
     @Override
     public void onLoad() {
         try {
-            context = new LifeContextImpl(serviceManager, null, this);
+            lifeEvent = new LifeEventImpl();
+            context = new LifeContextImpl(serviceManager, null, this, lifeEvent);
 
             injectionManager = new InjectionManagerImpl(serviceManager);
-            cycleLoader = new CycleLoaderImpl(injectionManager, serviceManager, this);
+            cycleLoader = new CycleLoaderImpl(injectionManager, serviceManager, lifeEvent, this);
             final ModuleModel moduleModel = new ModuleModelImpl(this, cycleLoader);
 
             coreLogger.info("Trying to load modules from default folder.");
@@ -74,9 +78,10 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
          * Used to share the instance to others modules
          */
         serviceManager.registerServices(
-                configYml,
                 inventoryFrame,
                 commandFrame,
+                lifeEvent,
+                configYml,
                 context,
                 this
         );

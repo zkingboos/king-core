@@ -6,7 +6,7 @@
 
     <groupId>io.king.module</groupId>
     <artifactId>core</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>

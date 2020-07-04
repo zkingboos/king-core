@@ -1,16 +1,15 @@
 package io.king.core.api.cycle;
 
-import io.king.core.api.service.Service;
 import io.king.core.provider.module.ModuleObject;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 /**
  * Context of life-cycle class
  * This class is responsible to "export" api to modules
  */
-@Service
 public interface LifeContext {
 
     /**
@@ -56,4 +55,13 @@ public interface LifeContext {
      * @return result
      */
     boolean isModule();
+
+    /**
+     * Register the listener for lifecycle
+     *
+     * @param clazz type of class
+     * @param consumer accept
+     * @param <T> type of event
+     */
+    <T> void registerEvent(Class<T> clazz, Consumer<T> consumer);
 }
