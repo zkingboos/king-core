@@ -7,9 +7,9 @@ public interface LifeEvent {
     /**
      * Register the listener for lifecycle
      *
-     * @param clazz type of class
+     * @param clazz    type of class
      * @param consumer accept
-     * @param <T> type of event
+     * @param <T>      type of event
      */
     <T> void registerEvent(Class<T> clazz, Consumer<T> consumer);
 
@@ -17,7 +17,7 @@ public interface LifeEvent {
      * Notify the registered listeners
      *
      * @param payload instance of paylaod
-     * @param <T> type of payload
+     * @param <T>     type of payload
      */
     <T> void notifyListeners(T payload);
 }

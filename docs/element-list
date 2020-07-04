@@ -6,6 +6,7 @@ io.king.core.api.module.stage
 io.king.core.api.service
 io.king.core.provider
 io.king.core.provider.cycle
+io.king.core.provider.cycle.event
 io.king.core.provider.cycle.strategy
 io.king.core.provider.di
 io.king.core.provider.module

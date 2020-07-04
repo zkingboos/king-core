@@ -20,7 +20,7 @@ public final class LifeEventImpl implements LifeEvent {
     public <T> void notifyListeners(T payload) {
         final Class<?> clazz = payload.getClass();
         for (ListenerObject listenerObject : listenerObjects) {
-            if(listenerObject.getTypeClass() == clazz) {
+            if (listenerObject.getTypeClass() == clazz) {
                 listenerObject.getConsumer().accept(payload);
             }
         }

@@ -59,9 +59,9 @@ public interface LifeContext {
     /**
      * Register the listener for lifecycle
      *
-     * @param clazz type of class
+     * @param clazz    type of class
      * @param consumer accept
-     * @param <T> type of event
+     * @param <T>      type of event
      */
     <T> void registerEvent(Class<T> clazz, Consumer<T> consumer);
 }
