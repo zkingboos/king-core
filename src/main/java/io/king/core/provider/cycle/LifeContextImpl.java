@@ -24,6 +24,8 @@ public final class LifeContextImpl implements LifeContext {
     private final File moduleDirectory;
     private final LifeEvent lifeEvent;
 
+    private File moduleDataFolder;
+
     @Override
     public <T> T getService(Class<?> registration) {
         final ServiceEntity<?> service = serviceManager.getRegistrationService(registration);
@@ -35,11 +37,13 @@ public final class LifeContextImpl implements LifeContext {
     @Override
     public File getDataFolder() throws AssertionError {
         if (!isModule()) throw new AssertionError("Isn't an module");
+        if(moduleDataFolder != null) return moduleDataFolder;
 
         final ModuleConfig moduleConfig = moduleObject.getModuleConfig();
         final String path = String.format("/%s/", moduleConfig.getName());
 
-        return new File(moduleDirectory, path);
+        this.moduleDataFolder = new File(moduleDirectory, path);
+        return moduleDataFolder;
     }
 
     @Override

@@ -2,7 +2,6 @@ package io.king.core.provider.yml;
 
 import lombok.experimental.Delegate;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +13,10 @@ public final class FileYml extends YamlConfiguration {
     @Delegate
     private YamlConfiguration configuration;
 
-    public FileYml(Plugin plugin, String file) {
-        this.ymlFile = new File(plugin.getDataFolder(), file);
+    public FileYml(File folder, String file) {
+        this.ymlFile = new File(folder, file);
+        if (!folder.exists()) folder.mkdir();
+
         if (!ymlFile.exists()) plugin.saveResource(file, false);
     }
 

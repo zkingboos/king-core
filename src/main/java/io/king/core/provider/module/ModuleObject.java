@@ -7,14 +7,17 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.io.File;
+
 @Getter
 @RequiredArgsConstructor
 public final class ModuleObject {
 
     private final ModuleProps moduleProps;
     private final Class<?> moduleClass;
-    private final Module module;
     private final long loadDuration;
+    private final Module module;
+    private final File fatJar;
 
     @Setter
     private ModuleStage moduleStage = ModuleStage.NOT_LOADED;

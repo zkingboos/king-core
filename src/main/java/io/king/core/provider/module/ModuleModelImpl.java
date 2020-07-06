@@ -89,14 +89,14 @@ public final class ModuleModelImpl implements ModuleModel {
                 "Sub-module should be annotated with @Module"
         );
 
-        final long newMsTime = System.currentTimeMillis();
-        final long delayedLoad = newMsTime - oldMsTime;
+        final long delayedLoad = System.currentTimeMillis() - oldMsTime;
 
         return new ModuleObject(
                 moduleProps,
                 clazz,
+                delayedLoad,
                 moduleAnnotation,
-                delayedLoad
+                file
         );
     }
 
