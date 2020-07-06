@@ -78,5 +78,5 @@ public interface LifeContext {
      *
      * @return instance of file
      */
-    File getDataFolder() throws AssertionError ;
+    File getDataFolder() throws AssertionError;
 }
