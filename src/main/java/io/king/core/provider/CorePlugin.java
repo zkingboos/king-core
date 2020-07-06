@@ -16,7 +16,6 @@ import io.king.core.provider.di.InjectionManagerImpl;
 import io.king.core.provider.module.ModuleContainerImpl;
 import io.king.core.provider.module.ModuleModelImpl;
 import io.king.core.provider.service.ServiceManagerImpl;
-import io.king.core.provider.yml.FileYml;
 import lombok.Getter;
 import me.saiintbrisson.commands.CommandFrame;
 import me.saiintbrisson.inventory.InventoryFrame;
@@ -42,7 +41,6 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
     private CycleLoader cycleLoader;
     private LifeContext context;
     private LifeEvent lifeEvent;
-    private FileYml configYml;
 
     @Override
     public void onLoad() {
@@ -57,7 +55,13 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
             );
 
             injectionManager = new InjectionManagerImpl(serviceManager);
-            cycleLoader = new CycleLoaderImpl(injectionManager, serviceManager, lifeEvent, this);
+            cycleLoader = new CycleLoaderImpl(
+                    injectionManager,
+                    serviceManager,
+                    lifeEvent,
+                    this
+            );
+
             final ModuleModel moduleModel = new ModuleModelImpl(this, cycleLoader);
 
             coreLogger.info("Trying to load modules from default folder.");
@@ -74,7 +78,6 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
 
     @Override
     public void onEnable() {
-        configYml = new FileYml(this, "config.yml").load();
         commandFrame = new CommandFrame(this);
         inventoryFrame = new InventoryFrame(this);
         inventoryFrame.registerListener();
@@ -87,7 +90,6 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
                 inventoryFrame,
                 commandFrame,
                 lifeEvent,
-                configYml,
                 context,
                 this
         );

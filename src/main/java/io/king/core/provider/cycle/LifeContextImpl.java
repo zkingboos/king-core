@@ -37,7 +37,7 @@ public final class LifeContextImpl implements LifeContext {
     @Override
     public File getDataFolder() throws AssertionError {
         if (!isModule()) throw new AssertionError("Isn't an module");
-        if(moduleDataFolder != null) return moduleDataFolder;
+        if (moduleDataFolder != null) return moduleDataFolder;
 
         final ModuleConfig moduleConfig = moduleObject.getModuleConfig();
         final String path = String.format("/%s/", moduleConfig.getName());
