@@ -2,7 +2,6 @@ package io.king.core.provider.yml;
 
 import io.king.core.provider.module.ModuleObject;
 import lombok.Getter;
-import lombok.experimental.Delegate;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 

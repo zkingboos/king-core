@@ -1,7 +1,5 @@
 package io.king.core.provider.module;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 import io.king.core.api.module.Module;
 import io.king.core.api.module.ModuleConfig;
 import io.king.core.api.module.stage.ModuleStage;
