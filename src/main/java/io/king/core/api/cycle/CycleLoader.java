@@ -4,6 +4,8 @@ import io.king.core.api.di.InjectionManager;
 import io.king.core.api.service.ServiceManager;
 import io.king.core.provider.module.ModuleObject;
 
+import java.io.File;
+
 /**
  * This class is a responsibility to load @Module annotations
  * The all life-cycles are be loaded here
@@ -80,4 +82,11 @@ public interface CycleLoader {
      * @return instance of life context
      */
     LifeContext resolveContext(ModuleObject moduleObject);
+
+    /**
+     * Set module directory path
+     *
+     * @param directory instance of path
+     */
+    void setModuleDirectory(File directory);
 }

@@ -35,6 +35,8 @@ public final class ModuleModelImpl implements ModuleModel {
         this.moduleFolder = new File(plugin.getDataFolder(), folder);
         this.cycleLoader = cycleLoader;
         this.plugin = plugin;
+
+        cycleLoader.setModuleDirectory(moduleFolder);
     }
 
     public ModuleManager load() throws Exception {

@@ -48,7 +48,13 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
     public void onLoad() {
         try {
             lifeEvent = new LifeEventImpl();
-            context = new LifeContextImpl(serviceManager, null, this, lifeEvent);
+            context = new LifeContextImpl(
+                    serviceManager,
+                    null,
+                    this,
+                    null,
+                    lifeEvent
+            );
 
             injectionManager = new InjectionManagerImpl(serviceManager);
             cycleLoader = new CycleLoaderImpl(injectionManager, serviceManager, lifeEvent, this);

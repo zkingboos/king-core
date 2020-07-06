@@ -15,8 +15,10 @@ import io.king.core.provider.cycle.strategy.*;
 import io.king.core.provider.module.ModuleObject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,6 +47,9 @@ public final class CycleLoaderImpl implements CycleLoader {
     private final ServiceManager serviceManager;
     private final LifeEvent lifeEvent;
     private final KingApi kingApi;
+
+    @Setter
+    private File moduleDirectory;
 
     public void resolveCycle(ModuleObject moduleObject) throws Exception {
         if (moduleObject.getModuleStage() == ModuleStage.LOADED) return;
@@ -83,6 +88,7 @@ public final class CycleLoaderImpl implements CycleLoader {
                 serviceManager,
                 moduleObject,
                 (JavaPlugin) kingApi,
+                moduleDirectory,
                 lifeEvent
         );
 

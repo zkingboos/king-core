@@ -3,6 +3,7 @@ package io.king.core.api.cycle;
 import io.king.core.provider.module.ModuleObject;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -64,4 +65,18 @@ public interface LifeContext {
      * @param <T>      type of event
      */
     <T> void registerEvent(Class<T> clazz, Consumer<T> consumer);
+
+    /**
+     * Return instance of directory module's path
+     *
+     * @return instance of path
+     */
+    File getModuleDirectory();
+
+    /**
+     * Return path of current module
+     *
+     * @return instance of file
+     */
+    File getDataFolder() throws AssertionError ;
 }
