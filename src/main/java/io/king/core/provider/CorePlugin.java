@@ -17,7 +17,7 @@ import io.king.core.provider.module.ModuleContainerImpl;
 import io.king.core.provider.module.ModuleModelImpl;
 import io.king.core.provider.service.ServiceManagerImpl;
 import lombok.Getter;
-import me.saiintbrisson.inventory.InventoryFrame;
+import me.saiintbrisson.minecraft.InventoryFrame;
 import me.saiintbrisson.minecraft.command.CommandFrame;
 import org.bukkit.plugin.java.JavaPlugin;
 
