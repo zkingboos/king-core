@@ -1,7 +1,7 @@
 package io.king.core.api;
 
 import io.king.core.api.module.ModuleManager;
-import me.saiintbrisson.commands.CommandFrame;
+import me.saiintbrisson.minecraft.command.CommandFrame;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**

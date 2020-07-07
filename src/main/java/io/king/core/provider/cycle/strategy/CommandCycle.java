@@ -6,7 +6,7 @@ import io.king.core.api.cycle.LifeContext;
 import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.module.Module;
 import io.king.core.provider.module.ModuleObject;
-import me.saiintbrisson.commands.CommandFrame;
+import me.saiintbrisson.minecraft.command.CommandFrame;
 
 public final class CommandCycle implements StrategyCycle {
 
