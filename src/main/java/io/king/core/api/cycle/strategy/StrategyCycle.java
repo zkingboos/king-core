@@ -12,8 +12,8 @@ public interface StrategyCycle {
     /**
      * Make unattached tasks
      *
-     * @param kingApi instance of king api
-     * @param loader instance of loader
+     * @param kingApi      instance of king api
+     * @param loader       instance of loader
      * @param moduleObject instance of module object
      * @throws Exception something can break
      */

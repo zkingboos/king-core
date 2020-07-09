@@ -39,6 +39,7 @@ public class FileYml {
      *
      * @param object instance of module object
      * @return instance of file yml
+     * @throws IOException cannot open file
      */
     public FileYml loadFromModule(ModuleObject object) throws IOException {
         if (!ymlFile.exists()) object.saveResource(ymlFile, file);
