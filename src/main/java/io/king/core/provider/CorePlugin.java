@@ -31,8 +31,6 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
 
     private final ModuleContainer moduleContainer = new ModuleContainerImpl();
     private final ServiceManager serviceManager = new ServiceManagerImpl();
-    private final Logger coreLogger = getLogger();
-    private final JavaPlugin plugin = this;
 
     private InjectionManager injectionManager;
     private InventoryFrame inventoryFrame;
@@ -41,9 +39,13 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
     private CycleLoader cycleLoader;
     private LifeContext context;
     private LifeEvent lifeEvent;
+    private JavaPlugin plugin;
+    private Logger coreLogger;
 
     @Override
     public void onLoad() {
+        coreLogger = getLogger();
+
         try {
             lifeEvent = new LifeEventImpl();
             context = new LifeContextImpl(
@@ -78,6 +80,8 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
 
     @Override
     public void onEnable() {
+        plugin = this;
+
         commandFrame = new CommandFrame(this);
         inventoryFrame = new InventoryFrame(this);
         inventoryFrame.registerListener();
@@ -95,10 +99,13 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
         );
 
         try {
+            coreLogger.info("Trying to register module container to actual class.");
             moduleContainer.registerManager(
                     CorePlugin.class,
                     moduleManager.orderByPriority().lifeCycle()
             );
+
+            coreLogger.info("Registered module container to actual class.");
         } catch (Exception e) {
             e.printStackTrace();
         }
