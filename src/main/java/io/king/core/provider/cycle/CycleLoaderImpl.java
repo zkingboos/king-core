@@ -5,6 +5,7 @@ import io.king.core.api.cycle.CycleLoader;
 import io.king.core.api.cycle.LifeContext;
 import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.cycle.LifeEvent;
+import io.king.core.api.cycle.strategy.StrategyCycle;
 import io.king.core.api.di.Inject;
 import io.king.core.api.di.Injectable;
 import io.king.core.api.di.InjectionManager;

@@ -3,6 +3,7 @@ package io.king.core.provider.cycle.strategy;
 import io.king.core.api.KingApi;
 import io.king.core.api.cycle.CycleLoader;
 import io.king.core.api.cycle.LifeCycle;
+import io.king.core.api.cycle.strategy.StrategyCycle;
 import io.king.core.api.module.Module;
 import io.king.core.provider.module.ModuleObject;
 
