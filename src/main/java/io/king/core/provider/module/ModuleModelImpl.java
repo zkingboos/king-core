@@ -5,6 +5,7 @@ import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.module.Module;
 import io.king.core.api.module.ModuleManager;
 import io.king.core.api.module.ModuleModel;
+import io.king.core.api.service.ServiceManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -23,15 +24,22 @@ public final class ModuleModelImpl implements ModuleModel {
     private static final ClassLoader LIFE_CYCLE_CLASS_LOADER = LifeCycle.class.getClassLoader();
     private final static Class<Module> MODULE_CLASS = Module.class;
 
+    private final CycleLoader cycleLoader;
     private final JavaPlugin plugin;
     private final File moduleFolder;
-    private final CycleLoader cycleLoader;
 
-    public ModuleModelImpl(JavaPlugin plugin, CycleLoader loader) {
+    public ModuleModelImpl(
+      JavaPlugin plugin,
+      CycleLoader loader
+    ) {
         this(plugin, loader, "/modules");
     }
 
-    public ModuleModelImpl(JavaPlugin plugin, CycleLoader cycleLoader, String folder) {
+    public ModuleModelImpl(
+      JavaPlugin plugin,
+      CycleLoader cycleLoader,
+      String folder
+    ) {
         this.moduleFolder = new File(plugin.getDataFolder(), folder);
         this.cycleLoader = cycleLoader;
         this.plugin = plugin;
@@ -56,7 +64,11 @@ public final class ModuleModelImpl implements ModuleModel {
         }
 
         urlClassLoader.close();
-        return new ModuleManagerImpl(moduleObjects, cycleLoader, plugin);
+        return new ModuleManagerImpl(
+          moduleObjects,
+          cycleLoader,
+          plugin
+        );
     }
 
     @Override

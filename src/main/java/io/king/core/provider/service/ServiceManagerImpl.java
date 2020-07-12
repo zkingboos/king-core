@@ -3,12 +3,18 @@ package io.king.core.provider.service;
 import io.king.core.api.service.ServiceEntity;
 import io.king.core.api.service.ServiceManager;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public final class ServiceManagerImpl implements ServiceManager {
 
     private final Map<Class<?>, ServiceEntity<?>> services = new LinkedHashMap<>();
+
+    public Iterator<ServiceEntity<?>> getServices() {
+        return services.values().iterator();
+    }
 
     @Override
     public void registerServices(Object... services) {

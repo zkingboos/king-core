@@ -9,7 +9,9 @@ import io.king.core.api.cycle.strategy.StrategyCycle;
 import io.king.core.api.di.Inject;
 import io.king.core.api.di.Injectable;
 import io.king.core.api.di.InjectionManager;
+import io.king.core.api.module.Module;
 import io.king.core.api.module.stage.ModuleStage;
+import io.king.core.api.service.ServiceEntity;
 import io.king.core.api.service.ServiceManager;
 import io.king.core.provider.cycle.event.ModuleInitialized;
 import io.king.core.provider.cycle.strategy.*;
@@ -20,10 +22,7 @@ import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 @RequiredArgsConstructor
@@ -123,10 +122,32 @@ public final class CycleLoaderImpl implements CycleLoader {
     @Override
     public void notifyDisposeModule(ModuleObject objectModule, LifeContext lifeContext) {
         final Object moduleInstance = objectModule.getModuleInstance();
-        final LifeCycle lifeCycle = initializeLife(moduleInstance);
 
-        if (lifeCycle == null) return;
-        lifeCycle.dispose(lifeContext);
+        try (LifeCycle lifeCycle = initializeLife(moduleInstance)) {
+            if (lifeCycle != null)
+                lifeCycle.dispose(lifeContext);
+        } catch (Exception $) {
+            $.printStackTrace();
+        }
+    }
+
+    @Override
+    public void removalServices(ModuleObject moduleObject, LifeContext lifeContext) {
+        for (Class<?> service : moduleObject.getBufferServices()) {
+            final ServiceEntity<?> registration = serviceManager.getRegistrationService(
+              service
+            );
+
+            if(registration == null) continue;
+            final Object currentService = registration.getService();
+
+            try (LifeCycle cycle = initializeLife(currentService)) {
+                if(cycle != null)
+                    cycle.dispose(lifeContext);
+            } catch (Exception $) {
+                $.printStackTrace();
+            }
+        }
     }
 
     @Override

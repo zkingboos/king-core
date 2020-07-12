@@ -89,4 +89,12 @@ public interface CycleLoader {
      * @param directory instance of path
      */
     void setModuleDirectory(File directory);
+
+    /**
+     * Kill the lifecycle
+     *
+     * @param moduleObject instance of module object
+     * @param lifeContext context of the life
+     */
+    void removalServices(ModuleObject moduleObject, LifeContext lifeContext);
 }

@@ -1,5 +1,7 @@
 package io.king.core.api.service;
 
+import java.util.Iterator;
+
 /**
  * Manager of services
  * This is used to share instance with others modules
@@ -12,6 +14,13 @@ public interface ServiceManager {
      * @param services instance of services
      */
     void registerServices(Object... services);
+
+    /**
+     * Get all registered services
+     *
+     * @return iterator of service's instance
+     */
+    Iterator<ServiceEntity<?>> getServices();
 
     /**
      * Register single service into service manager

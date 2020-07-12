@@ -2,12 +2,16 @@ package io.king.core.provider.module;
 
 import io.king.core.api.cycle.CycleLoader;
 import io.king.core.api.cycle.LifeContext;
+import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.module.ModuleManager;
+import io.king.core.api.service.ServiceEntity;
+import io.king.core.api.service.ServiceManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -65,6 +69,7 @@ public final class ModuleManagerImpl implements ModuleManager {
         for (ModuleObject module : modules) {
             final LifeContext lifeContext = cycleLoader.resolveContext(module);
             cycleLoader.notifyDisposeModule(module, lifeContext);
+            cycleLoader.removalServices(module, lifeContext);
         }
     }
 }

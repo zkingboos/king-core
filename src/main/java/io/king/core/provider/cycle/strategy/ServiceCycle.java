@@ -17,21 +17,60 @@ public final class ServiceCycle implements StrategyCycle {
     private final static Class<Service> SERVICE_CLASS = Service.class;
 
     @Override
-    public void setup(KingApi kingApi, CycleLoader loader, ModuleObject moduleObject) throws Exception {
+    public void setup(
+      KingApi kingApi,
+      CycleLoader loader,
+      ModuleObject moduleObject
+    ) throws Exception {
         final ServiceManager serviceManager = loader.getServiceManager();
         final Module module = moduleObject.getModule();
 
         final LifeContext lifeContext = loader.resolveContext(moduleObject);
 
         for (Class<?> service : module.services()) {
-            final boolean isPresent = service.isAnnotationPresent(SERVICE_CLASS);
-            if (!isPresent) throw new NoSuchElementException("Service should be annotated with @Service");
-
-            final Object objectInstance = loader.initialize(service);
-            final LifeCycle lifeCycle = loader.initializeLife(objectInstance);
-
-            serviceManager.registerService(objectInstance);
-            loader.notifyModule(lifeCycle, lifeContext);
+            resolveServiceContext(
+              moduleObject,
+              service,
+              loader,
+              lifeContext,
+              serviceManager
+            );
         }
+    }
+
+    public void resolveServiceContext(
+      ModuleObject moduleObject,
+      Class<?> service,
+      CycleLoader loader,
+      LifeContext lifeContext,
+      ServiceManager serviceManager
+    ) throws Exception {
+        final Service serviceAnnotation = service.getAnnotation(SERVICE_CLASS);
+        if (serviceAnnotation == null)
+            throw new NoSuchElementException("Service should be annotated with @Service");
+
+        for (Class<?> subService : serviceAnnotation.value()) {
+            if(service == subService) {
+                throw new StackOverflowError(
+                  "Service and subservice are the same."
+                );
+            }
+
+            resolveServiceContext(
+              moduleObject,
+              subService,
+              loader,
+              lifeContext,
+              serviceManager
+            );
+        }
+
+        final Object objectInstance = loader.initialize(service);
+        final LifeCycle lifeCycle = loader.initializeLife(objectInstance);
+
+        serviceManager.registerService(objectInstance);
+        loader.notifyModule(lifeCycle, lifeContext);
+
+        moduleObject.addToBuffer(service);
     }
 }

@@ -64,7 +64,10 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
               this
             );
 
-            final ModuleModel moduleModel = new ModuleModelImpl(this, cycleLoader);
+            final ModuleModel moduleModel = new ModuleModelImpl(
+              this,
+              cycleLoader
+            );
 
             coreLogger.info("Trying to load modules from default folder.");
             moduleManager = moduleModel.load();
