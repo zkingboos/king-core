@@ -68,8 +68,8 @@ public final class ModuleModelImpl implements ModuleModel {
         }
 
         return URLClassLoader.newInstance(
-                urls,
-                LIFE_CYCLE_CLASS_LOADER
+          urls,
+          LIFE_CYCLE_CLASS_LOADER
         );
     }
 
@@ -79,24 +79,24 @@ public final class ModuleModelImpl implements ModuleModel {
 
         final ModuleProps moduleProps = loadJarFile(file, classLoader);
         final Class<?> clazz = Class.forName(
-                moduleProps.getMainClass().getName(),
-                true,
-                classLoader
+          moduleProps.getMainClass().getName(),
+          true,
+          classLoader
         );
 
         final Module moduleAnnotation = clazz.getAnnotation(MODULE_CLASS);
         if (moduleAnnotation == null) throw new NoSuchElementException(
-                "Sub-module should be annotated with @Module"
+          "Sub-module should be annotated with @Module"
         );
 
         final long delayedLoad = System.currentTimeMillis() - oldMsTime;
 
         return new ModuleObject(
-                moduleProps,
-                clazz,
-                delayedLoad,
-                moduleAnnotation,
-                file
+          moduleProps,
+          clazz,
+          delayedLoad,
+          moduleAnnotation,
+          file
         );
     }
 
@@ -130,12 +130,12 @@ public final class ModuleModelImpl implements ModuleModel {
         jarFile.close();
 
         if (mainClass == null) throw new NoSuchElementException(
-                "No classes were annotated with @Module in the file."
+          "No classes were annotated with @Module in the file."
         );
 
         final long loadedAtTime = System.currentTimeMillis();
         return new ModuleProps(
-                mainClass, jarFileName, loadedAtTime
+          mainClass, jarFileName, loadedAtTime
         );
     }
 }

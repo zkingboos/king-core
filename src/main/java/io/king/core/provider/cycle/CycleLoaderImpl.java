@@ -86,11 +86,11 @@ public final class CycleLoaderImpl implements CycleLoader {
         if (lifeContext != null) return lifeContext;
 
         final LifeContextImpl value = new LifeContextImpl(
-                serviceManager,
-                moduleObject,
-                (JavaPlugin) kingApi,
-                moduleDirectory,
-                lifeEvent
+          serviceManager,
+          moduleObject,
+          (JavaPlugin) kingApi,
+          moduleDirectory,
+          lifeEvent
         );
 
         lifeContextMap.put(moduleClass, value);
@@ -101,8 +101,8 @@ public final class CycleLoaderImpl implements CycleLoader {
     public Object initialize(Class<?> clazz) throws Exception {
         final boolean isPresent = clazz.isAnnotationPresent(INJECTABLE_CLASS);
         final Object objectInstance = isPresent ?
-                injectionManager.injectIntoClass(clazz) :
-                clazz.newInstance();
+          injectionManager.injectIntoClass(clazz) :
+          clazz.newInstance();
 
         injectionManager.injectIntoService(objectInstance, clazz);
         return objectInstance;

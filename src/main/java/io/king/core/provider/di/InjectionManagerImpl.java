@@ -51,7 +51,7 @@ public final class InjectionManagerImpl implements InjectionManager {
                 if (!type.isAnnotationPresent(INJECT_CLASS)) continue mainLoop;
 
                 final ServiceEntity<?> registration = serviceManager.getRegistrationService(
-                        type.getType()
+                  type.getType()
                 );
 
                 if (registration == null) throw new NoSuchElementException();

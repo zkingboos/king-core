@@ -21,7 +21,7 @@ public final class ConfigCycle implements StrategyCycle {
         final Object objectInstance = moduleConfigClass.newInstance();
 
         if (!MODULE_CONFIG.isInstance(objectInstance)) throw new NoSuchElementException(
-                "The config type should be ModuleConfig's type"
+          "The config type should be ModuleConfig's type"
         );
 
         final ModuleConfig moduleConfig = (ModuleConfig) objectInstance;

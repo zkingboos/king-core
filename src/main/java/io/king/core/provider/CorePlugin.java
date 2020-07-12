@@ -49,19 +49,19 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
         try {
             lifeEvent = new LifeEventImpl();
             context = new LifeContextImpl(
-                    serviceManager,
-                    null,
-                    this,
-                    null,
-                    lifeEvent
+              serviceManager,
+              null,
+              this,
+              null,
+              lifeEvent
             );
 
             injectionManager = new InjectionManagerImpl(serviceManager);
             cycleLoader = new CycleLoaderImpl(
-                    injectionManager,
-                    serviceManager,
-                    lifeEvent,
-                    this
+              injectionManager,
+              serviceManager,
+              lifeEvent,
+              this
             );
 
             final ModuleModel moduleModel = new ModuleModelImpl(this, cycleLoader);
@@ -69,9 +69,9 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
             coreLogger.info("Trying to load modules from default folder.");
             moduleManager = moduleModel.load();
             coreLogger.info(
-                    String.format("Loaded %s modules from default folder.",
-                            moduleManager.getModules().size()
-                    )
+              String.format("Loaded %s modules from default folder.",
+                moduleManager.getModules().size()
+              )
             );
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,18 +91,18 @@ public final class CorePlugin extends JavaPlugin implements KingApi {
          * Used to share the instance to others modules
          */
         serviceManager.registerServices(
-                inventoryFrame,
-                commandFrame,
-                lifeEvent,
-                context,
-                this
+          inventoryFrame,
+          commandFrame,
+          lifeEvent,
+          context,
+          this
         );
 
         try {
             coreLogger.info("Trying to register module container to actual class.");
             moduleContainer.registerManager(
-                    CorePlugin.class,
-                    moduleManager.orderByPriority().lifeCycle()
+              CorePlugin.class,
+              moduleManager.orderByPriority().lifeCycle()
             );
 
             coreLogger.info("Registered module container to actual class.");

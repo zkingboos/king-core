@@ -32,12 +32,12 @@ public final class ModuleManagerImpl implements ModuleManager {
         final Class<?> moduleClass = module.getModuleClass();
         for (Class<?> soft : module.getModule().softDepend()) {
             if (moduleClass.equals(soft)) throw new StackOverflowError(
-                    "Overflow on softDepend at module " + moduleClass.getSimpleName()
+              "Overflow on softDepend at module " + moduleClass.getSimpleName()
             );
 
             final ModuleObject moduleType = findModuleByType(soft);
             if (moduleType == null) throw new NoSuchElementException(
-                    "Module not found"
+              "Module not found"
             );
 
             tryLoadLife(moduleType);
