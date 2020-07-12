@@ -50,7 +50,7 @@ public final class ServiceCycle implements StrategyCycle {
             throw new NoSuchElementException("Service should be annotated with @Service");
 
         for (Class<?> subService : serviceAnnotation.value()) {
-            if(service == subService) {
+            if (service == subService) {
                 throw new StackOverflowError(
                   "Service and subservice are the same."
                 );

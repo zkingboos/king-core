@@ -5,7 +5,6 @@ import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.module.Module;
 import io.king.core.api.module.ModuleManager;
 import io.king.core.api.module.ModuleModel;
-import io.king.core.api.service.ServiceManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;

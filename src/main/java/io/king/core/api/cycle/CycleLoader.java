@@ -94,7 +94,7 @@ public interface CycleLoader {
      * Kill the lifecycle
      *
      * @param moduleObject instance of module object
-     * @param lifeContext context of the life
+     * @param lifeContext  context of the life
      */
     void removalServices(ModuleObject moduleObject, LifeContext lifeContext);
 }

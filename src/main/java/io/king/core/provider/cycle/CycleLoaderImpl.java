@@ -9,7 +9,6 @@ import io.king.core.api.cycle.strategy.StrategyCycle;
 import io.king.core.api.di.Inject;
 import io.king.core.api.di.Injectable;
 import io.king.core.api.di.InjectionManager;
-import io.king.core.api.module.Module;
 import io.king.core.api.module.stage.ModuleStage;
 import io.king.core.api.service.ServiceEntity;
 import io.king.core.api.service.ServiceManager;
@@ -22,7 +21,10 @@ import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
@@ -138,11 +140,11 @@ public final class CycleLoaderImpl implements CycleLoader {
               service
             );
 
-            if(registration == null) continue;
+            if (registration == null) continue;
             final Object currentService = registration.getService();
 
             try (LifeCycle cycle = initializeLife(currentService)) {
-                if(cycle != null)
+                if (cycle != null)
                     cycle.dispose(lifeContext);
             } catch (Exception $) {
                 $.printStackTrace();
