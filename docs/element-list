@@ -2,6 +2,9 @@ io.king.core.api
 io.king.core.api.cycle
 io.king.core.api.cycle.strategy
 io.king.core.api.di
+io.king.core.api.exception
+io.king.core.api.exception.module
+io.king.core.api.exception.service
 io.king.core.api.module
 io.king.core.api.module.stage
 io.king.core.api.service
