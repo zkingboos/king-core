@@ -10,8 +10,8 @@ public final class InjectableException extends NoSuchElementException {
         super(
           String.format(
             EXCEPTION_MESSAGE,
-            injectionClass.getSimpleName(),
-            typeService.getSimpleName()
+            typeService.getSimpleName(),
+            injectionClass.getSimpleName()
           )
         );
     }
