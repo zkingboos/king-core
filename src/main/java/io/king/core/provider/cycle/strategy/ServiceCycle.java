@@ -5,12 +5,12 @@ import io.king.core.api.cycle.CycleLoader;
 import io.king.core.api.cycle.LifeContext;
 import io.king.core.api.cycle.LifeCycle;
 import io.king.core.api.cycle.strategy.StrategyCycle;
+import io.king.core.api.exception.service.NoSuchServiceException;
+import io.king.core.api.exception.service.RedundantServiceException;
 import io.king.core.api.module.Module;
 import io.king.core.api.service.Service;
 import io.king.core.api.service.ServiceManager;
 import io.king.core.provider.module.ModuleObject;
-
-import java.util.NoSuchElementException;
 
 public final class ServiceCycle implements StrategyCycle {
 
@@ -47,14 +47,11 @@ public final class ServiceCycle implements StrategyCycle {
     ) throws Exception {
         final Service serviceAnnotation = service.getAnnotation(SERVICE_CLASS);
         if (serviceAnnotation == null)
-            throw new NoSuchElementException("Service should be annotated with @Service");
+            throw new NoSuchServiceException(service);
 
         for (Class<?> subService : serviceAnnotation.value()) {
-            if (service == subService) {
-                throw new StackOverflowError(
-                  "Service and subservice are the same."
-                );
-            }
+            if (service == subService)
+                throw new RedundantServiceException(service, subService);
 
             resolveServiceContext(
               moduleObject,

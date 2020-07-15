@@ -50,7 +50,8 @@ public final class ModuleModelImpl implements ModuleModel {
         if (!moduleFolder.exists()) moduleFolder.mkdir();
 
         File[] moduleFiles = moduleFolder.listFiles();
-        if (moduleFiles == null) throw new NoSuchElementException();
+        if (moduleFiles == null)
+            throw new NoSuchElementException("Can´t read files of folder.");
 
         final List<ModuleObject> moduleObjects = new LinkedList<>();
         final URLClassLoader urlClassLoader = resolveClasses(moduleFiles);
@@ -97,7 +98,7 @@ public final class ModuleModelImpl implements ModuleModel {
 
         final Module moduleAnnotation = clazz.getAnnotation(MODULE_CLASS);
         if (moduleAnnotation == null) throw new NoSuchElementException(
-          "Sub-module should be annotated with @Module"
+          "Module should be annotated with @Module"
         );
 
         final long delayedLoad = System.currentTimeMillis() - oldMsTime;
@@ -141,12 +142,14 @@ public final class ModuleModelImpl implements ModuleModel {
         jarFile.close();
 
         if (mainClass == null) throw new NoSuchElementException(
-          "No classes were annotated with @Module in the file."
+          "No classes were annotated with @Module in this file."
         );
 
         final long loadedAtTime = System.currentTimeMillis();
         return new ModuleProps(
-          mainClass, jarFileName, loadedAtTime
+          mainClass,
+          jarFileName,
+          loadedAtTime
         );
     }
 }

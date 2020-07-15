@@ -26,15 +26,15 @@ public final class EventCycle implements StrategyCycle {
 
         for (Class<? extends Listener> event : module.events()) {
             final Object objectInstance = loader.initialize(event);
-            if (!BUKKIT_LISTENER_CLASS.isInstance(objectInstance)) throw new NoSuchElementException(
-              "Event type should be instance of Listener"
-            );
+            if (!BUKKIT_LISTENER_CLASS.isInstance(objectInstance))
+                throw new NoSuchElementException("Event type should be instance of Listener");
 
             final LifeCycle lifeCycle = loader.initializeLife(objectInstance);
-
             pluginManager.registerEvents(
-              (Listener) objectInstance, kingApi.getPlugin()
+              (Listener) objectInstance,
+              kingApi.getPlugin()
             );
+
             loader.notifyModule(lifeCycle, lifeContext);
         }
     }

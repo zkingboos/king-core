@@ -2,6 +2,8 @@ package io.king.core.provider.di;
 
 import io.king.core.api.di.Inject;
 import io.king.core.api.di.InjectionManager;
+import io.king.core.api.exception.InjectableException;
+import io.king.core.api.exception.service.NoSuchServiceRegistryException;
 import io.king.core.api.service.ServiceEntity;
 import io.king.core.api.service.ServiceManager;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
-import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 public final class InjectionManagerImpl implements InjectionManager {
@@ -25,14 +26,13 @@ public final class InjectionManagerImpl implements InjectionManager {
 
             final Class<?> type = field.getType();
             final ServiceEntity<?> service = serviceManager.getRegistrationService(type);
-            if (service == null) throw new NoSuchElementException();
+            if (service == null)
+                throw new NoSuchServiceRegistryException(type);
 
             final Object serviceObject = service.getService();
-            final boolean accessible = field.isAccessible();
 
             field.setAccessible(true);
             field.set(objectInstance, serviceObject);
-            field.setAccessible(accessible);
         }
     }
 
@@ -50,11 +50,13 @@ public final class InjectionManagerImpl implements InjectionManager {
                 final Parameter type = parameters[i];
                 if (!type.isAnnotationPresent(INJECT_CLASS)) continue mainLoop;
 
+                final Class<?> typeService = type.getType();
                 final ServiceEntity<?> registration = serviceManager.getRegistrationService(
-                  type.getType()
+                  typeService
                 );
 
-                if (registration == null) throw new NoSuchElementException();
+                if (registration == null)
+                    throw new InjectableException(clazz, typeService);
 
                 objects[i] = registration.getService();
             }
