@@ -50,7 +50,7 @@ public final class ServiceCycle implements StrategyCycle {
             throw new NoSuchServiceException(service);
 
         for (Class<?> subService : serviceAnnotation.value()) {
-            if (service == subService)
+            if (service.equals(subService))
                 throw new RedundantServiceException(service, subService);
 
             resolveServiceContext(
