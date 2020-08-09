@@ -1,4 +1,5 @@
 # king-core
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f989d1c53bdd45de857ee7f79315aa3d)](https://app.codacy.com/gh/codeproton/king-core?utm_source=github.com&utm_medium=referral&utm_content=codeproton/king-core&utm_campaign=Badge_Grade_Settings)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/927a0d0c8d7a46cba00750343b46da7e)](https://www.codacy.com/gh/codeproton/king-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codeproton/king-core&amp;utm_campaign=Badge_Grade)
 [![](https://jitpack.io/v/codeproton/king-core.svg)](https://jitpack.io/#codeproton/king-core)
 
