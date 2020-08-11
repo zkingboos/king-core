@@ -1,0 +1,4 @@
+main: io.king.module.provider.CorePlugin
+version: 2.0.0
+author: zkingboos
+name: KingCore
