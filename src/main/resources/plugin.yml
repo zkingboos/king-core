@@ -1,4 +1,4 @@
-main: io.king.module.provider.CorePlugin
+main: io.king.module.provider.bootstrap.CorePlugin
 version: 2.0.0
 author: zkingboos
 name: KingCore
