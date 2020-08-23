@@ -28,14 +28,18 @@ public final class ModuleLoaderImpl {
 
     public ModuleArchive loadModule(@NonNull File moduleFilePath) throws Exception {
         try (JarFile moduleFile = new JarFile(moduleFilePath)) {
-            return loadContentModule(moduleFile);
+            final ModuleArchive moduleArchive = new ModuleArchive();
+
+            //Apply the module name, and file object instance
+            moduleArchive.setModuleFile(moduleFilePath);
+            moduleArchive.setModuleName(moduleFilePath.getName());
+
+            loadContentModule(moduleFile, moduleArchive);
+            return moduleArchive;
         }
     }
 
-    public ModuleArchive loadContentModule(@NonNull JarFile jarFile) throws Exception {
-        final ModuleArchive moduleArchive = new ModuleArchive();
-        moduleArchive.setModuleName(jarFile.getName());
-
+    public void loadContentModule(@NonNull JarFile jarFile, @NonNull ModuleArchive moduleArchive) throws Exception {
         final Enumeration<JarEntry> entries = jarFile.entries();
         while (entries.hasMoreElements()) {
             final JarEntry entry = entries.nextElement();
@@ -58,7 +62,6 @@ public final class ModuleLoaderImpl {
         }
 
         loadConfigurationModule(moduleArchive);
-        return moduleArchive;
     }
 
     public Class<?> loadAndGetClass(@NonNull String packageClass) throws ClassNotFoundException {
