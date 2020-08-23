@@ -14,6 +14,7 @@ public final class ModuleArchive {
     private String moduleName;
 
     private Class<?> moduleMainClass;
+
     private Module moduleAnnotation;
 
     private Configuration moduleConfiguration;
